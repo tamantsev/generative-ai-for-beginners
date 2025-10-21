@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Дневник силовых тренировок</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <header class="hero">
+        <h1>Дневник силовых тренировок</h1>
+        <p>Записывайте подходы, анализируйте нагрузку и экспортируйте результаты.</p>
+        <button id="exportButton" type="button">📤 Экспортировать в CSV</button>
+      </header>
+
+      <section class="section" id="log-section">
+        <h2>Новая запись</h2>
+        <form id="logForm">
+          <label for="exerciseSelect">Упражнение</label>
+          <div class="inline-field">
+            <select id="exerciseSelect" required></select>
+            <button type="button" id="addExerciseButton" class="secondary">➕</button>
+          </div>
+
+          <label for="dateInput">Дата</label>
+          <input type="date" id="dateInput" required />
+
+          <label for="timeOfDaySelect">Время суток</label>
+          <select id="timeOfDaySelect" required>
+            <option value="morning">Утро</option>
+            <option value="afternoon">День</option>
+            <option value="evening">Вечер</option>
+          </select>
+
+          <label for="weightInput">Вес (кг)</label>
+          <input type="number" id="weightInput" inputmode="decimal" min="0" step="0.5" required />
+
+          <label for="repsInput">Повторы</label>
+          <input type="number" id="repsInput" inputmode="numeric" min="1" step="1" required />
+
+          <button type="submit" class="primary">💾 Сохранить подход</button>
+        </form>
+      </section>
+
+      <section class="section" id="history-section">
+        <h2>История тренировок</h2>
+        <div id="historyContainer" class="history"></div>
+      </section>
+
+      <section class="section" id="stats-section">
+        <h2>Статистика</h2>
+        <div class="charts">
+          <div class="chart-card">
+            <h3>Нагрузка по дням</h3>
+            <canvas id="loadByDayChart" aria-label="График нагрузки по дням"></canvas>
+          </div>
+          <div class="chart-card">
+            <h3>Нагрузка по упражнениям</h3>
+            <canvas id="loadByExerciseChart" aria-label="График нагрузки по упражнениям"></canvas>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="toast" role="status" aria-live="polite"></div>
+
+    <script type="module" src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>

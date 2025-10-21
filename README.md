@@ -77,7 +77,32 @@ Here are ways you can contribute to this course:
 
  
   
-## 🎒  Other Courses 
+## 🏋️ Telegram training diary mini app
+
+This repository now ships with a complete Telegram bot and mini app for managing strength-training sessions. The solution stores
+all workouts in MySQL, calculates training load for every set (repetitions × weight) and provides CSV exports and visual
+analytics.
+
+### Key capabilities
+
+- Conversational Telegram bot built on `python-telegram-bot` with support for reusable exercises, default date/time selection,
+  quick set entry and undo actions for incorrect data.
+- Telegram mini app (Flask + vanilla JavaScript) optimised for mobile, featuring a minimalist white/red/black palette, large
+  controls and load charts powered by Chart.js.
+- Secure per-user storage via Telegram authentication (Web App `initData`) and SQLAlchemy models targeting MySQL (via PyMySQL).
+
+### Getting started
+
+1. Install dependencies: `pip install -r requirements.txt`.
+2. Create a MySQL database and set the `DATABASE_URL` together with `TELEGRAM_BOT_TOKEN` (see `training_diary/.env.example`).
+3. Run the bot: `python -m training_diary.telegram_bot`.
+4. Launch the mini app server: `flask --app training_diary.webapp run --host 0.0.0.0 --port 8000`.
+5. Configure the bot's Web App URL inside BotFather so Telegram can embed the interface.
+
+> Tip: both services share the same SQLAlchemy models, so you only need to run migrations once. Tables are created automatically
+> on first launch.
+
+## 🎒  Other Courses
 
 Our team produces other courses! Check out:
 
