@@ -9,7 +9,7 @@ from typing import Optional
 from flask import Flask, Response, abort, g, jsonify, render_template, request
 
 from .config import get_settings
-from .database import SessionLocal, init_db
+from .database import get_session_factory, init_db
 from .models import TimeOfDay
 from .security import verify_telegram_webapp
 from .services import TrainingDiaryService, infer_time_of_day
@@ -30,7 +30,7 @@ def create_app() -> Flask:
         except ValueError as exc:  # pragma: no cover - defensive
             abort(403, description=str(exc))
 
-        session = SessionLocal()
+        session = get_session_factory()()
         g.db = session
         g.service = TrainingDiaryService(session)
         g.user = g.service.ensure_user(
@@ -52,6 +52,7 @@ def create_app() -> Flask:
                 session.rollback()
         finally:
             session.close()
+            get_session_factory().remove()
 
     @app.route("/")
     def index() -> str:
